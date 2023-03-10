@@ -1,0 +1,194 @@
+[
+  {
+    "name": "Invalid lon test - value too small",
+    "params": {
+      "lon": "-181",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+     "asserts": {
+          "assert_status_code": [404],
+          "assert_error_msg": ["No imagery for specified date."]}
+  },
+  {
+    "name": "Invalid lon test - value too large",
+    "params": {
+      "lon": "181",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+      "assert_status_code": [404],
+      "assert_error_msg": ["No imagery for specified date."]}
+  },
+  {
+    "name": "Invalid lon test - value not a number",
+    "params": {
+      "lon": "invalid",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+      "asserts": {
+          "assert_status_code": [400]}
+  },
+  {
+    "name": "Invalid lat test - value too small",
+    "params": {
+      "lon": "-95.33",
+      "lat": "-91",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+      "asserts": {
+          "assert_status_code": [404],
+          "assert_error_msg": ["No imagery for specified date."]}
+  },
+  {
+    "name": "Invalid lat test - value too large",
+    "params": {
+      "lon": "-95.33",
+      "lat": "91",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+     "asserts": {
+          "assert_status_code": [404],
+          "assert_error_msg": ["No imagery for specified date."]}
+  },
+  {
+    "name": "Invalid lat type",
+    "params": {
+      "lon": "-95.33",
+      "lat": "abc",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "api_key": "{replace}"
+    },
+     "asserts": {
+          "assert_status_code": [400]}
+  },
+  {
+    "name": "Invalid dim type test",
+    "params": {
+      "lon": "23.45",
+      "lat": "-67.89",
+      "dim": "abc",
+      "date": "2022-01-01",
+      "api_key": "valid_key"
+    },
+    "asserts": {
+          "assert_status_code": [403]}
+  },
+  {
+    "name": "Invalid dim format test",
+    "params": {
+      "lon": "23.45",
+      "lat": "-67.89",
+      "dim": "0,10",
+      "date": "2022-01-01",
+      "api_key": "valid_key"
+    },
+    "asserts": {
+          "assert_status_code": [403]}
+  },
+  {
+    "name": "Out of range dim test",
+    "params": {
+      "lon": "23.45",
+      "lat": "-67.89",
+      "dim": "2.0",
+      "date": "2022-01-01",
+      "api_key": "valid_key"
+    },
+    "asserts": {
+          "assert_status_code": [403]}
+  },
+  {
+    "name": "Future date test",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2024-20-01",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+          "assert_status_code": [400]}
+  },
+  {
+    "name": "Invalid date format test",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2021",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+          "assert_status_code": [400]}
+  },
+  {
+    "name": "Invalid date value test",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "not a date",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+          "assert_status_code": [400]}
+  },
+  {
+    "name": "Invalid test with invalid value for cloud_score",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "cloud_score": "invalid_value",
+      "api_key": "{replace}"
+    },
+     "asserts": {
+      "assert_status_code": [200],
+      "assert_content_type": ["image/png"]
+    }
+  },
+  {
+    "name": "Invalid test format test cloud_score",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "cloud_score": "1",
+      "api_key": "{replace}"
+    },
+     "asserts": {
+      "assert_status_code": [200],
+      "assert_content_type": ["image/png"]
+    }
+  },
+  {
+    "name": "Invalid test with invalid api_key",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "cloud_score": "true",
+      "api_key": "invalid_api_key"
+    },
+    "asserts": {
+          "assert_status_code": [403],
+          "assert_error_code": ["API_KEY_INVALID"]}
+  }
+]

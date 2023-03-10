@@ -1,0 +1,3 @@
+TIME_OUT_TOTALL: 60
+TIME_OUT_CONNECTION: 15
+API_URL: "https://api.nasa.gov"

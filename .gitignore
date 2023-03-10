@@ -1,0 +1,9 @@
+.pytest_cache
+tests/planetary/earth/.pytest_cache
+.env
+__pycache__/
+venv/
+.idea/
+.vscode/
+.bin
+.DS_Store

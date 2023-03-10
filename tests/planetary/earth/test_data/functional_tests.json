@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Valid test",
+    "params": {
+      "lon": "-95.33",
+      "lat": "29.78",
+      "dim": "0.15",
+      "date": "2022-01-01",
+      "cloud_score": "true",
+      "api_key": "{replace}"
+    },
+    "expected_status": 200,
+    "content_type": "image/png",
+    "asserts": {
+      "assert_status_code": [200],
+      "assert_content_type": ["image/png"],
+      "assert_image": []
+    }
+  },
+  {
+    "name": "Valid test with min lon/lat but didn't find the image",
+    "params": {
+      "lon": "-180",
+      "lat": "-90",
+      "date": "2022-01-01",
+      "cloud_score": "true",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+      "assert_status_code": [404],
+      "assert_error_msg": ["No imagery for specified date."]
+    }
+  },
+  {
+    "name": "Valid test with maximum lon/lat but didn't find the image",
+    "params": {
+      "lon": "180",
+      "lat": "90",
+      "dim": "1.0",
+      "date": "2022-01-01",
+      "cloud_score": "true",
+      "api_key": "{replace}"
+    },
+    "asserts": {
+      "assert_status_code": [404],
+      "assert_error_msg": ["No imagery for specified date."]
+    }
+  }
+]
