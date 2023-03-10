@@ -1,4 +1,3 @@
-
 from typing import Optional, Any, Dict
 from api import utils
 from config import API_URL
@@ -25,4 +24,9 @@ class Request:
     def url(self):
         return utils.join(API_URL, self.endpoint)
 
-
+    def update_params(self, params: Dict[str, Any]):
+        if self.params:
+            self.params.update(params)
+        else:
+            self.params = params
+        return self
