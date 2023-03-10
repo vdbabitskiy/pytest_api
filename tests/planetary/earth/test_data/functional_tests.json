@@ -9,8 +9,6 @@
       "cloud_score": "true",
       "api_key": "{replace}"
     },
-    "expected_status": 200,
-    "content_type": "image/png",
     "asserts": {
       "assert_status_code": [200],
       "assert_content_type": ["image/png"],
