@@ -23,6 +23,10 @@ class Response:
         return json.loads(self._content)
 
     @property
+    def request_info(self):
+        return self._raw_response.request_info
+
+    @property
     def error_msg(self) -> str:
         return str(self.json['msg'])
 

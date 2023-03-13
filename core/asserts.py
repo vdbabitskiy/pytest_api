@@ -3,7 +3,7 @@ from io import BytesIO
 
 import jsonpath_ng
 from assertpy import assert_that
-from api.response import Response
+from core.api.response import Response
 
 
 class ResponseAssert:

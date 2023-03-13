@@ -1,6 +1,6 @@
 import pytest
 
-from api.api_client import ApiClient
+from core.api.api_client import ApiClient
 
 
 @pytest.fixture()

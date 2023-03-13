@@ -1,5 +1,5 @@
 from typing import Optional, Any, Dict
-from api import utils
+from core import utils
 from config import API_URL
 
 

@@ -1,6 +1,6 @@
 import yaml
 
-from api.utils import get_root_path
+from core.utils import get_root_path
 
 with open(f'{get_root_path()}/config.yaml', 'r') as f:
     config = yaml.safe_load(f)

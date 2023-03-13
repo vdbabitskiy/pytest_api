@@ -2,9 +2,9 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from api.request import Request
-from api.utils import transform_value, load_test_data
-from tests.asserters import ResponseAssert
+from core.api.request import Request
+from core.utils import transform_value, load_test_data
+from core.asserts import ResponseAssert
 
 
 load_dotenv()
