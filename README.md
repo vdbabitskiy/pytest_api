@@ -1,1 +1,1 @@
-Just an example implementation of API coverage framework using pytest.
+Just an example implementation of API coverage framework using pytest!
