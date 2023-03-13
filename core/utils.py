@@ -1,5 +1,6 @@
 import asyncio
 import json
+from functools import wraps
 from os.path import dirname, abspath
 from pathlib import Path
 from typing import Tuple, Type, Union, Optional, Callable, List
@@ -8,22 +9,25 @@ from aiohttp import ClientConnectorError, ClientHttpProxyError
 from loguru import logger
 
 
-def transform_value(json_data, new_value):
+def process_arguments(new_value, pattern='{replace}'):
     """
-       Replaces all occurrences according pattern of a certain value with a new value
-       in a JSON-like data structure (dicts, lists).
+    Replaces all occurrences according pattern of a certain value with a new value
+    in a JSON-like data structure (dicts, lists).
     """
-    pattern = '{replace}'
-    if isinstance(json_data, dict):
-        for key, value in json_data.items():
-            if value == pattern:
-                json_data[key] = new_value
-            elif isinstance(value, (dict, list)):
-                transform_value(value,  new_value)
-    elif isinstance(json_data, list):
-        for item in json_data:
-            transform_value(item, new_value)
-    return json_data
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            for arg in args:
+                if isinstance(arg, dict):
+                    _transform_value(arg, new_value, pattern)
+                elif isinstance(arg, str):
+                    if is_json(arg):
+                        _transform_value(json.loads(arg), new_value, pattern)
+            if kwargs:
+                _transform_value(kwargs, new_value, pattern)
+            return await func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 def load_test_data(file_name):
@@ -31,7 +35,6 @@ def load_test_data(file_name):
         Loads test data as json and returns a dictionary
         representing the data.
     """
-
     try:
         with open(file_name) as f:
             test_data = json.load(f)
@@ -108,6 +111,23 @@ def async_retry(exceptions: Union[Type[Exception], Tuple[Type[Exception], ...]],
                         raise ex
         return wrapper
     return decorator
+
+
+def _transform_value(json_data, new_value, pattern: str):
+    """
+       Replaces all occurrences according pattern of a certain value with a new value
+       in a JSON-like data structure (dicts, lists).
+    """
+    if isinstance(json_data, dict):
+        for key, value in json_data.items():
+            if value == pattern:
+                json_data[key] = new_value
+            elif isinstance(value, (dict, list)):
+                _transform_value(value,  new_value, pattern)
+    elif isinstance(json_data, list):
+        for item in json_data:
+            _transform_value(item, new_value, pattern)
+    return json_data
 
 
 def _ensure_trailing_separator(url: str) -> str:

@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 from core.api.api_client import ApiClient
@@ -7,7 +9,11 @@ from core.api.api_client import ApiClient
 def api_client():
     client = ApiClient()
     client.create()
-    yield client
-    client.close()
+    try:
+        yield client
+    finally:
+        asyncio.get_event_loop().run_until_complete(client.close())
+
+
 
 
